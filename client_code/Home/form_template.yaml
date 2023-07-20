@@ -7,7 +7,11 @@ components:
   properties: {col_widths: '{}'}
   name: content_panel
   layout_properties: {slot: default}
-  components: []
+  components:
+  - type: form:Home.CountrySelection
+    properties: {}
+    name: country_selection_1
+    layout_properties: {grid_position: 'TYDXML,JAFUQV'}
 - type: FlowPanel
   properties: {}
   name: navbar_links
