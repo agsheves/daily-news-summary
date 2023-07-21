@@ -1,9 +1,25 @@
+scheduled_tasks:
+- task_name: send_daily_summary
+  time_spec:
+    n: 1
+    every: day
+    at: {minute: 0, hour: 7}
+  job_id: EXWIVHZS
 dependencies: []
 services:
 - source: /runtime/services/tables.yml
   client_config: {}
   server_config: {}
-startup: {type: form, module: Home}
+- source: /runtime/services/anvil/secrets.yml
+  client_config: {}
+  server_config: {}
+- source: /runtime/services/anvil/email.yml
+  client_config: {}
+  server_config: {}
+- source: /runtime/services/google.yml
+  client_config: {}
+  server_config: {enc_delegation_refresh_token: X1G4sTJt73VDZ5Iqpnb+E2o7b9RxHwqPNp6ClPkLs9IJmFI3DIbIWrGR94n9QmDR0ilsVeSIJTln68FaejMBrbZbV85G9B9ys4eb1wPxJT5ERULpxNQUtZnxUOMVUMlRqr5wEcwmvKgo52sPPuaGWdXXVksBVxJfpVIWSl/metRcgJbarH9gSEveRur2tY5QSyM1YGmddnmU3VXVrlyqeuu10nNxq9udLJVlKipLqEF2WQsCV7lFBfAppO+voe6qbXEPpbKAkJciF1y31zOUO8IDc4pDUCAPimQzoOMfnW2oWucGll9rElBVGki8cA==}
+startup: {type: form, module: Home.Form1}
 package_name: Daily_News_Summary
 allow_embedding: false
 name: Daily News Summary
@@ -14,4 +30,12 @@ runtime_options:
   server_spec: {base: python310-standard}
 metadata: {title: NewsBot, logo_img: 'asset:Scenarios.png'}
 startup_form: null
+db_schema: {}
+secrets:
+  openai_api:
+    value: {TGXU35C6JLUECIVC: +F5DLTG3h/jc1bNApkWTJUkVEBDqS9PHpUZ+emGbrmmQG5P0z335S3OL6YsmZ43iKxx/K/kyBPEX1d33M+UIaPeqKIj/xZCVL+dKK33ruCajE8m0C2w2SkE/zVlFAxjN97hOE2s4ZfFIevEgg86exoeyyecp2EtMtzGD2CWofJRcrxQKIHrf75BrHDUp1zI7xK8=}
+    type: secret
+  newsapi_key:
+    value: {TGXU35C6JLUECIVC: MFBU6GR/rnGD3tjVwwvNovrTJn9xBOGPTb0IzIoN20sJMS9vbiKvE9yA7kZmxWGqZoQo5sjZP4d9MxNyCZRq1XZ4RPqUHIEXKnsFFPzUz0jN+IcvSMy+wfpLhWaoWesGz9lTY/fRUju6+nSmHHgz4I6KmC5EViH5eGo/C0jYNA==}
+    type: secret
 renamed: true
