@@ -28,7 +28,7 @@ runtime_options:
   client_version: '3'
   server_version: python3-full
   server_spec: {base: python310-standard}
-metadata: {title: NewsBot, logo_img: 'asset:Scenarios.png'}
+metadata: {title: NewsBot, logo_img: 'asset:Scenarios.png', description: An AI-driven newsletter generator}
 startup_form: null
 db_schema:
   latest_news:

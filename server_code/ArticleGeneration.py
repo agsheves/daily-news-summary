@@ -36,7 +36,7 @@ def get_risk_articles():
     api_key = anvil.secrets.get_secret('newsapi_key')  # Fetch API key from Anvil's Secret Service
 
     # Set your date constraint
-    three_days_ago = datetime.now() - timedelta(days=3)
+    one_day_ago = datetime.now() - timedelta(days=1)
 
     # Call the API without the date constraint
     risk_news = search_news(api_key, "risk management" or "crisis management" or "crisis" or "cyber" or "compliance" or "governance", number=50)
@@ -48,7 +48,7 @@ def get_risk_articles():
         publish_date = datetime.strptime(publish_date_str, '%Y-%m-%d %H:%M:%S')
 
         # Check if the publication date falls within the last three days
-        if publish_date >= three_days_ago:
+        if publish_date >= one_day_ago:
             title = news['title']
             summary = news['text']
             link = news['url']
@@ -116,9 +116,6 @@ def send_daily_news_email(html_summary):
         return "Email sent successfully."
     except Exception as e:
         return f"Failed to send email: {e}"
-
-@anvil.server.callable
-def store_news():
   
 
 @anvil.server.background_task
