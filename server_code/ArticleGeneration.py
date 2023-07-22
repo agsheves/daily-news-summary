@@ -117,10 +117,12 @@ def send_daily_news_email(html_summary):
     except Exception as e:
         return f"Failed to send email: {e}"
 
-
+@anvil.server.callable
+def store_news():
+  
 
 @anvil.server.background_task
-def send_daily_summary():
+def send_daily_risk_summary():
   articles = get_risk_articles()  # Call the function directly
   summary = summarize_stories(articles)
   send_daily_news_email(summary)
