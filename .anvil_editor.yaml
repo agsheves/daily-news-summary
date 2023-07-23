@@ -6,6 +6,7 @@ unique_ids:
   modules: {}
   server_modules:
     ArticleGeneration: '1689867049812590047973595.7678'
+    Metrics: '1690143122792583941542918.8853'
   assets:
     Scenarios.png: '1689866000081111292066716.46652'
     standard-page.html: PFHJHAKR5X342LRX4DUC4QQUFIRLDAAM
