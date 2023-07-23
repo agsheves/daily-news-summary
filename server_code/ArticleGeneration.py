@@ -13,6 +13,7 @@ import openai
 
 ##############################################
 #Calls the Newscatcher API and requests stories
+#API reference is here https://docs.newscatcherapi.com/api-docs/endpoints/latest-headlines
 @anvil.server.callable
 def get_risk_articles():
     def search_news(api_key, text, number=10, language='en', sort='publish-time', sort_direction='DESC'):
@@ -67,7 +68,7 @@ def get_risk_articles():
     return risk_articles_list
 
 ##############################################
-#Splits the articles up so these don;t exceed the token count for the model. Using 15K as a limit.
+#Splits the articles up so these don't exceed the token count for the model. Using 15K as a limit.
 @anvil.server.callable
 def split_articles(articles, max_tokens=15000):
     # This is a simple function to split the list of articles into smaller chunks that will fit within the token limit.
