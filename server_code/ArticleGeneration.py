@@ -11,7 +11,8 @@ from datetime import datetime, timedelta
 import anvil.secrets
 import openai
 
-
+##############################################
+#Calls the Newscatcher API and requests stories
 @anvil.server.callable
 def get_risk_articles():
     def search_news(api_key, text, number=10, language='en', sort='publish-time', sort_direction='DESC'):
@@ -36,7 +37,7 @@ def get_risk_articles():
     api_key = anvil.secrets.get_secret('newsapi_key')  # Fetch API key from Anvil's Secret Service
 
     # Set your date constraint
-    one_day_ago = datetime.now() - timedelta(days=1)
+    two_days_ago = datetime.now() - timedelta(days=2)
 
     # Call the API without the date constraint
     risk_news = search_news(api_key, "risk management" or "crisis management" or "crisis" or "cyber" or "compliance" or "governance", number=50)
@@ -48,7 +49,7 @@ def get_risk_articles():
         publish_date = datetime.strptime(publish_date_str, '%Y-%m-%d %H:%M:%S')
 
         # Check if the publication date falls within the last three days
-        if publish_date >= one_day_ago:
+        if publish_date >= two_days_ago:
             title = news['title']
             summary = news['text']
             link = news['url']
@@ -65,7 +66,39 @@ def get_risk_articles():
 
     return risk_articles_list
 
+##############################################
+#Splits the articles up so these don;t exceed the token count for the model. Using 15K as a limit.
+@anvil.server.callable
+def split_articles(articles, max_tokens=15000):
+    # This is a simple function to split the list of articles into smaller chunks that will fit within the token limit.
 
+    split_articles = []
+    current_chunk = []
+    current_tokens = 0
+
+    for article in articles:
+        # Calculate the number of tokens in this article.
+        # This is a rough estimate, you might need to adjust it.
+        # Here, I'm assuming an average of 5 tokens per word.
+        article_tokens = len(article['Headline'].split()) + len(article['Summary'].split()) * 5
+
+        # If adding this article would exceed the token limit, start a new chunk.
+        if current_tokens + article_tokens > max_tokens:
+            split_articles.append(current_chunk)
+            current_chunk = []
+            current_tokens = 0
+
+        # Add the article to the current chunk and update the token count.
+        current_chunk.append(article)
+        current_tokens += article_tokens
+
+    # Add the last chunk if it's not empty.
+    if current_chunk:
+        split_articles.append(current_chunk)
+    return split_articles
+
+##############################################
+#Sends the stories to ChatGPT to summarize and put into HTML format
 @anvil.server.callable
 def summarize_stories(risk_articles_str):
     openai.api_key = anvil.secrets.get_secret('openai_api')
@@ -73,14 +106,18 @@ def summarize_stories(risk_articles_str):
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-16k",
         messages=[
-            {"role": "system", "content": "You are an experienced risk and security analyst, responsible for writing succinct summary reports."},
-            {"role": "user", "content": f"Please summarize these articles for a daily briefing email to help the reader understand each story. Include a headline for each story and start the summary on a seperate line. Ignore articles that have no political, economic, security or geopolitical relevance. Use the source links for each story to include clickable link for each story from a reputable news source where the link text is the source name. Return the results in HTML format to help formatting in Google Docs. Here are the articles: \n{risk_articles_str}"}
-        ]
+          {"role": "system", "content": "You are an experienced risk and security analyst, responsible for writing succinct summary reports."},
+          {"role": "user", "content": f"Please summarize these articles for a daily briefing email to help the reader understand each story. For each story, use the following format: Begin with an HTML <h1> tag for the headline. Follow this with the date in a new line. Then, summarize the story in a paragraph, ensuring the summary is concise yet informative. Conclude each story with a HTML <a> tag for the clickable source link where the link text is the source name. The articles should be separated by a horizontal line. Ignore articles that have no political, economic, security or geopolitical relevance. Return the results in HTML format to help formatting in Google Docs. Here are the articles: \n{risk_articles_str}"}
+]
+
     )
 
     html_summary = completion.choices[0].message['content']
     return html_summary
 
+
+##############################################
+#Emails the news summaries
 @anvil.server.callable()
 def send_daily_news_email(html_summary):
     try:
@@ -120,6 +157,16 @@ def send_daily_news_email(html_summary):
 
 @anvil.server.background_task
 def send_daily_risk_summary():
-  articles = get_risk_articles()  # Call the function directly
-  summary = summarize_stories(articles)
-  send_daily_news_email(summary)
+    articles = get_risk_articles()  # Call the function directly
+    split_articles_list = split_articles(articles)
+    # Generate summaries
+    summaries = []
+    for chunk in split_articles_list:
+        summary = summarize_stories(chunk)
+        summaries.append(summary)
+    # Join all summaries into one string
+    full_summary = ''.join(summaries)
+
+    # Now you can pass 'full_summary' to your 'send_daily_news_email' function
+    send_daily_news_email(full_summary)
+

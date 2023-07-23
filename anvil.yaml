@@ -1,10 +1,10 @@
 scheduled_tasks:
-- task_name: send_daily_summary
+- task_name: send_daily_risk_summary
   time_spec:
     n: 1
     every: day
-    at: {minute: 0, hour: 7}
-  job_id: EXWIVHZS
+    at: {minute: 30, hour: 9}
+  job_id: QZVUZPYA
 dependencies: []
 services:
 - source: /runtime/services/tables.yml
