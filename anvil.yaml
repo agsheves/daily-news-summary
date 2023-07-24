@@ -5,6 +5,12 @@ scheduled_tasks:
     every: day
     at: {minute: 30, hour: 9}
   job_id: QZVUZPYA
+- task_name: send_full_daily_summary
+  time_spec:
+    n: 1
+    every: day
+    at: {minute: 0, hour: 3}
+  job_id: ISTWGWNW
 dependencies: []
 services:
 - source: /runtime/services/tables.yml

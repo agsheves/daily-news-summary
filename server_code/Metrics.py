@@ -9,6 +9,8 @@ import anvil.server
 import requests
 import pandas as pd
 import numpy as np
+from datetime import datetime, timedelta
+
 
 
 ##AlphaVantage API for API calls.
@@ -63,28 +65,29 @@ def get_commodity_price_AlphaVantage(commodity_name, endpoint_url):
 
   # Determine current price status based on the mean and standard deviation
   if current < (mean - std):
-    current_relative_price = "VERY LOW"
+    current_relative_price = "very low"
   elif current < mean:
-    current_relative_price = "LOW"
+    current_relative_price = "low"
   elif (current >= mean - 0.5*std) and (current <= mean + 0.5*std):
-    current_relative_price = "AROUND AVERAGE"
+    current_relative_price = "around average"
   elif current <= (mean + std):
-    current_relative_price = "HIGH"
+    current_relative_price = "high"
   else:
-    current_relative_price = "VERY HIGH"
+    current_relative_price = "very high"
 
   # Determine the 3-month trend
   three_month_trend = (commodity_df_18['value'].tail(1).values[0] - commodity_df_18['value'].tail(3).head(1).values[0]) / commodity_df_18['value'].tail(3).head(1).values[0]
 
   if three_month_trend > 0:
-    current_commodity_trend = "UP"
+    current_commodity_trend = "upwards"
   elif three_month_trend < 0:
-    current_commodity_trend = "DOWN"
+    current_commodity_trend = "downwards"
   else:
-    current_commodity_trend = "STABLE"
+    current_commodity_trend = "relatively stable"
 
   # Return current commodity price and trend as a dictionary
   return {"Commodity": commodity_name, "Current Price ($)": current, "Current Relative Price (18-month window)": current_relative_price, "Current Trend (3-Month Window)": current_commodity_trend}
+
 
 ##Get all market data
 @anvil.server.callable
@@ -94,33 +97,33 @@ def get_market_metrics():
   market_metrics["wheat"] = anvil.server.call('get_commodity_price_AlphaVantage', 'wheat', 'https://www.alphavantage.co/query?function=WHEAT&interval=monthly')
   return market_metrics
   
-#Current metrics summary
+#Write current metrics summary
 @anvil.server.callable
 def write_market_metrics_summary():
   market_metrics = anvil.server.call('get_market_metrics')
   # Extract commodity metrics
   wheat_current_trend = market_metrics["wheat"]["Current Trend (3-Month Window)"]
+  wheat_relative_price = market_metrics["wheat"]["Current Relative Price (18-month window)"]
   wheat_current_price = market_metrics["wheat"]["Current Price ($)"]
   oil_current_trend = market_metrics["oil"]["Current Trend (3-Month Window)"]
+  oil_relative_price = market_metrics["oil"]["Current Relative Price (18-month window)"]
   oil_current_price = market_metrics["oil"]["Current Price ($)"]
   # Create the body of the email
   metrics_summary = f"""
-<p>Hello,</p>
 
-<p>Here are the current market metrics for our main commodities:</p>
+<p>Here are the current values for the tracked metrics:</p>
 
-<p><b>Wheat:</b><br/>
-- Current price: ${wheat_current_price}<br/>
-- Current trend: {wheat_current_trend}</p>
-
-<p><b>Oil:</b><br/>
-- Current price: ${oil_current_price}<br/>
-- Current trend: {oil_current_trend}</p>
-
-<p>Best,<br/>
-Your friendly market analytics bot</p>
+<h2><b>Wheat:</h2></b><br/><p>
+- Current price: ${wheat_current_price}. This is {wheat_relative_price} for this 18-month period.<br/>
+- The 3-month trend is {wheat_current_trend}</p>
+<hr>
+<h2><b>Oil:</h2></b><br/><p>
+- Current price: ${oil_current_price}. This is {oil_relative_price} for this 18-month period.<br/>
+- The 3-month trend is {oil_current_trend}</p>
+<hr>
 """
   return metrics_summary
+
 
 ##############################################
 #Emails the market metrics summaries
