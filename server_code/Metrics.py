@@ -26,7 +26,7 @@ import requests
 #Wheat https://www.alphavantage.co/query?function=WHEAT&interval=monthly
 #Oil (WTI) https://www.alphavantage.co/query?function=WTI&interval=monthly
 @anvil.server.callable
-def get_commodity_price(commodity_name, endpoint_url):
+def get_commodity_price_AlphaVantage(commodity_name, endpoint_url):
   url = f'{endpoint_url}&apikey={alphaVantageAPI}'
   r = requests.get(url)
   commodity_data = r.json()
@@ -90,8 +90,8 @@ def get_commodity_price(commodity_name, endpoint_url):
 @anvil.server.callable
 def get_market_metrics():
   market_metrics = {}
-  market_metrics["oil"] = anvil.server.call('get_commodity_price', 'Oil \(WTI\)', 'https://www.alphavantage.co/query?function=WTI&interval=monthly')
-  market_metrics["wheat"] = anvil.server.call('get_commodity_price', 'wheat', 'https://www.alphavantage.co/query?function=WHEAT&interval=monthly')
+  market_metrics["oil"] = anvil.server.call('get_commodity_price_AlphaVantage', 'Oil \(WTI\)', 'https://www.alphavantage.co/query?function=WTI&interval=monthly')
+  market_metrics["wheat"] = anvil.server.call('get_commodity_price_AlphaVantage', 'wheat', 'https://www.alphavantage.co/query?function=WHEAT&interval=monthly')
   return market_metrics
   
 #Current metrics summary
