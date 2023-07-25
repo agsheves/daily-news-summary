@@ -1,3 +1,4 @@
+import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
@@ -38,7 +39,7 @@ def get_risk_articles():
     api_key = anvil.secrets.get_secret('newsapi_key')  # Fetch API key from Anvil's Secret Service
 
     # Set your date constraint
-    two_days_ago = datetime.now() - timedelta(days=2)
+    one_day_ago = datetime.now() - timedelta(days=1)
 
     # Call the API without the date constraint
     risk_news = search_news(api_key, "risk management" or "crisis management" or "crisis" or "cyber" or "compliance" or "governance", number=50)
@@ -50,7 +51,7 @@ def get_risk_articles():
         publish_date = datetime.strptime(publish_date_str, '%Y-%m-%d %H:%M:%S')
 
         # Check if the publication date falls within the last three days
-        if publish_date >= two_days_ago:
+        if publish_date >= one_day_ago:
             title = news['title']
             summary = news['text']
             link = news['url']
