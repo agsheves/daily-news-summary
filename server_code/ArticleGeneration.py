@@ -42,7 +42,7 @@ def get_risk_articles():
     one_day_ago = datetime.now() - timedelta(days=1)
 
     # Call the API without the date constraint
-    risk_news = search_news(api_key, "risk management" or "crisis management" or "crisis" or "cyber" or "compliance" or "governance", number=50)
+    risk_news = search_news(api_key, risk management" or "crisis management" or "crisis" or "cyber" or "compliance" or "governance", number=50)
 
     risk_articles_list = []
     for news in risk_news['news']:

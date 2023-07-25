@@ -1,15 +1,9 @@
 scheduled_tasks:
-- task_name: send_daily_risk_summary
-  time_spec:
-    n: 1
-    every: day
-    at: {minute: 30, hour: 9}
-  job_id: QZVUZPYA
 - task_name: send_full_daily_summary
   time_spec:
-    n: 1
-    every: day
-    at: {minute: 0, hour: 3}
+    n: 6
+    every: hour
+    at: {minute: 0}
   job_id: ISTWGWNW
 dependencies: []
 services:
