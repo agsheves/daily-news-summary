@@ -118,7 +118,49 @@ def get_risk_articles_newsdata():
 
     return risk_articles_list
 
+##Calls the NewsCatcher API
 
+@anvil.server.callable
+def get_risk_articles_newscatcher():
+  newsCatcher_API = anvil.secrets.get_secret('newsCatcher_API')  # Fetch API key from Anvil's Secret Service
+
+  # Set your date constraint
+  three_day_ago = datetime.now() - timedelta(days=3)
+  
+  # Set your query parameters
+  querystring = {"q":"risk management OR crisis management OR crisis OR cyber OR compliance OR governance",
+                 "lang":"en",
+                 "from": three_day_ago.strftime('%Y-%m-%d'),
+                 "page_size":50}
+
+  headers = {"x-api-key": newsCatcher_API}
+
+  response = requests.request("GET", 'https://api.newscatcherapi.com/v2/search', headers=headers, params=querystring)
+  
+  risk_news = response.json()
+  return risk_news
+
+  risk_articles_list = []
+  for article in risk_news['articles']:
+    title = article['title']
+    if 'photo' not in title.lower():
+        if article['topic'] in topics:
+            date = article['published_date']
+            source = article['rights']
+            summary = article['summary']
+            link = article['link']
+            topic = article['topic']
+
+            risk_articles_list.append({
+                'Headline': title,
+                'Source': source,
+                'Date': date,
+                'Summary': summary,
+                'Link': link,
+            })
+
+    risk_articles_str = json.dumps(risk_articles_list, indent=4)
+    print(f'*********************\nHeadline: {title}\nSource: {source}\nTopic: {topic}\nDate: {date}\nSummary: {summary}\nLink to article: {link}\n\n')
 
 ##############################################
 #Splits the articles up so these don't exceed the token count for the model. Using 15K as a limit.

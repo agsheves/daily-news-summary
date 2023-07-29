@@ -100,4 +100,7 @@ secrets:
   newsData_key:
     value: {TGXU35C6JLUECIVC: JVUJyKleLaOcVvPXOQqmvnpZUrBKM/eRf845c+0FdJ3A+ix+GCACWeEsH2nUGlbMCTjTpju9k7W/a+rUz8ReoCfZHYsbDoLJd0yYxQjQSI8tl9ZG/cYGJwpc2VC5C7z7mb5uwGHEKo2GkORK5PonaYJPB2oXAb8Ytn6ebSv9wRJrfa+A02ovUA==}
     type: secret
+  newsCatcher_API:
+    value: {TGXU35C6JLUECIVC: bJtqff7prmZT+zBNiX0iMA0P1togPFO7Zx3X688cnLIAvBILbvDnF6rYqoH2Q9jKvp7Gz0Scu/SqCNZC1sdjYdwbkhGs96bMsP4DtjcfWxN6Xfmcd/az4dreoGiaBjjPOBJeWAfhLtywmiPLvH6/WFg2FVJ4nHV8oW29156WjLoT+tCDoNM3J0Y4}
+    type: secret
 renamed: true
