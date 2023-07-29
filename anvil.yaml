@@ -97,4 +97,7 @@ secrets:
   alphaVantage:
     value: {TGXU35C6JLUECIVC: P0o3UcIGAHbYtIh47rcuIgXNB1exhON2y0+Oh19/1qCeyeFN0rymQ2zF9kS+v9MM/1LAyD1pEpfkWBZJRfMwOn85R8X8DyWgohG9B0zsqAH0OLU5bgvJQo0BPmRd4w/KPl4VwajOeptmjtxNhXAR}
     type: secret
+  newsData_key:
+    value: {TGXU35C6JLUECIVC: JVUJyKleLaOcVvPXOQqmvnpZUrBKM/eRf845c+0FdJ3A+ix+GCACWeEsH2nUGlbMCTjTpju9k7W/a+rUz8ReoCfZHYsbDoLJd0yYxQjQSI8tl9ZG/cYGJwpc2VC5C7z7mb5uwGHEKo2GkORK5PonaYJPB2oXAb8Ytn6ebSv9wRJrfa+A02ovUA==}
+    type: secret
 renamed: true

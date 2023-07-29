@@ -13,8 +13,8 @@ import anvil.secrets
 import openai
 
 ##############################################
-#Calls the Newscatcher API and requests stories
-#API reference is here https://docs.newscatcherapi.com/api-docs/endpoints/latest-headlines
+#Calls the WorldNews API and requests stories
+#API reference is here https://worldnewsapi.com/
 @anvil.server.callable
 def get_risk_articles():
     def search_news(api_key, text, number=10, language='en', sort='publish-time', sort_direction='DESC'):
@@ -39,10 +39,11 @@ def get_risk_articles():
     api_key = anvil.secrets.get_secret('newsapi_key')  # Fetch API key from Anvil's Secret Service
 
     # Set your date constraint
-    one_day_ago = datetime.now() - timedelta(days=1)
+    three_day_ago = datetime.now() - timedelta(days=3)
 
     # Call the API without the date constraint
-    risk_news = search_news(api_key, risk management" or "crisis management" or "crisis" or "cyber" or "compliance" or "governance", number=50)
+    risk_news = search_news(api_key, "risk management" or "crisis management" or "crisis" or "cyber" or "compliance" or "governance", number=50)
+    print(risk_news)
 
     risk_articles_list = []
     for news in risk_news['news']:
@@ -51,7 +52,7 @@ def get_risk_articles():
         publish_date = datetime.strptime(publish_date_str, '%Y-%m-%d %H:%M:%S')
 
         # Check if the publication date falls within the last three days
-        if publish_date >= one_day_ago:
+        if publish_date >= three_day_ago:
             title = news['title']
             summary = news['text']
             link = news['url']
@@ -67,6 +68,57 @@ def get_risk_articles():
             })
 
     return risk_articles_list
+
+
+#######
+#Calls the Newsdata.io API and requests stories
+#API reference is here https://newsdata.io/
+
+@anvil.server.callable
+def get_risk_articles_newsdata():
+    def search_news(api_key, text, number=10, language='en'):
+        url = "https://newsdata.io/api/1/news"
+        categories = "business"
+        query = {
+            'apikey': api_key,
+            'qInTitle': text,
+            'category': categories,
+            'language': language
+        }
+        response = requests.get(url, params=query)
+
+        # Check if request was successful
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"Request failed with status code {response.status_code}")
+            return None
+
+    api_key = anvil.secrets.get_secret('newsData_key')  # Fetch API key from Anvil's Secret Service
+
+    # Call the API with the keywords
+    risk_news = search_news(api_key, "risk management OR crisis management OR crisis OR cyber OR compliance OR governance", number=50)
+
+    if not risk_news or 'results' not in risk_news:
+        return []
+
+    risk_articles_list = []
+    for news in risk_news['results']:
+        title = news['title']
+        summary = news['description'] 
+        link = news['link']
+        source = news.get('creator', 'Unknown')  # Use 'creator' as the source; if not present, use 'Unknown'
+
+        risk_articles_list.append({
+            'Headline': title,
+            'Source': source,
+            'Summary': summary,
+            'Link': link,
+        })
+
+    return risk_articles_list
+
+
 
 ##############################################
 #Splits the articles up so these don't exceed the token count for the model. Using 15K as a limit.
