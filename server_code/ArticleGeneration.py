@@ -163,6 +163,21 @@ def get_risk_articles_newscatcher():
     print(f'*********************\nHeadline: {title}\nSource: {source}\nTopic: {topic}\nDate: {date}\nSummary: {summary}\nLink to article: {link}\n\n')
 
 ##############################################
+# NewsLit API
+
+@anvil.server.callable()
+def get_risk_articles_newsLit():
+  url = "https://newslit-news-search.p.rapidapi.com/news"
+  querystring = {"q":"Elon Musk"}
+  headers = {
+    "X-RapidAPI-Key": anvil.secrets.get_secret('newsLit_API'),
+	  "X-RapidAPI-Host": "newslit-news-search.p.rapidapi.com"
+  }
+  response = requests.get(url, headers=headers, params=querystring)
+  print(response.json())
+
+
+##############################################
 #Splits the articles up so these don't exceed the token count for the model. Using 15K as a limit.
 @anvil.server.callable
 def split_articles(articles, max_tokens=15000):
