@@ -11,6 +11,7 @@ import json
 from datetime import datetime, timedelta
 import anvil.secrets
 import openai
+import pandas as pd
 
 ##############################################
 #Calls the WorldNews API and requests stories
@@ -163,18 +164,37 @@ def get_risk_articles_newscatcher():
     print(f'*********************\nHeadline: {title}\nSource: {source}\nTopic: {topic}\nDate: {date}\nSummary: {summary}\nLink to article: {link}\n\n')
 
 ##############################################
-# NewsLit API
+# NewsLit API via Google Sheets
 
-@anvil.server.callable()
-def get_risk_articles_newsLit():
-  url = "https://newslit-news-search.p.rapidapi.com/news"
-  querystring = {"q":"Elon Musk"}
-  headers = {
-    "X-RapidAPI-Key": anvil.secrets.get_secret('newsLit_API'),
-	  "X-RapidAPI-Host": "newslit-news-search.p.rapidapi.com"
-  }
-  response = requests.get(url, headers=headers, params=querystring)
-  print(response.json())
+@anvil.server.callable
+def get_risknews_newLit():
+    # Open your Google Sheet
+    sheet = app_files.newslitfeed.get_sheet('NewsLitFeed')  # Replace 'Sheet1' with your sheet name
+
+    # Get all the rows from the sheet
+    rows = sheet.get_rows()
+
+    # Convert the rows to a list and then to a DataFrame
+    df = pd.DataFrame(list(rows))
+    
+    # Convert DataFrame to HTML formatted stories
+    html_string = "<html><body>"
+    for _, row in df.iterrows():
+        story_html = f"""
+        <h1>{row['title']}</h1>
+        <h3>Published on: {row['publication_date']}</h3>
+        <h4>Author: {row['author']}</h4>
+        <img src='{row['image_url']}' alt='Story image'>
+        <p>{row['excerpt']}</p>
+        <p><a href='{row['url']}'>Read more</a></p>
+        <hr>
+        """
+        html_string += story_html
+    html_string += "</body></html>"
+
+    return html_string
+
+
 
 
 ##############################################

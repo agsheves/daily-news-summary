@@ -17,7 +17,66 @@ services:
   client_config: {}
   server_config: {}
 - source: /runtime/services/google.yml
-  client_config: {}
+  client_config:
+    app_files:
+    - capabilities: {canEdit: true, canCopy: true}
+      editable: true
+      copyable: true
+      embedLink: https://docs.google.com/spreadsheets/d/1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno/htmlembed?ouid=105749649116749768227
+      copyRequiresWriterPermission: false
+      python_name: newslitfeed
+      explicitlyTrashed: false
+      lastModifyingUser:
+        displayName: Andrew Sheves
+        kind: drive#user
+        isAuthenticatedUser: true
+        permissionId: '13960866872567285789'
+        emailAddress: andrew@tarjumansolutions.com
+        picture: {url: 'https://lh3.googleusercontent.com/a/AAcHTte8LhQ_AboCS5JbzI6R8eOLAZRo5xCSDSlJbgcFB8IDFA=s64'}
+      shared: false
+      createdDate: '2023-07-30T11:15:01.114Z'
+      id: 1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno
+      owners:
+      - displayName: Andrew Sheves
+        kind: drive#user
+        isAuthenticatedUser: true
+        permissionId: '13960866872567285789'
+        emailAddress: andrew@tarjumansolutions.com
+        picture: {url: 'https://lh3.googleusercontent.com/a/AAcHTte8LhQ_AboCS5JbzI6R8eOLAZRo5xCSDSlJbgcFB8IDFA=s64'}
+      markedViewedByMeDate: '1970-01-01T00:00:00.000Z'
+      spaces: [drive]
+      parents:
+      - {selfLink: 'https://www.googleapis.com/drive/v2/files/1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno/parents/1IPnuqlfSiErMAAudsQx2oQkdmIihTa6D',
+        id: 1IPnuqlfSiErMAAudsQx2oQkdmIihTa6D, isRoot: false, kind: drive#parentReference,
+        parentLink: 'https://www.googleapis.com/drive/v2/files/1IPnuqlfSiErMAAudsQx2oQkdmIihTa6D'}
+      labels: {viewed: true, restricted: false, starred: false, hidden: false, trashed: false}
+      iconLink: https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet
+      selfLink: https://www.googleapis.com/drive/v2/files/1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno
+      lastViewedByMeDate: '2023-07-30T11:27:06.429Z'
+      userPermission: {id: me, type: user, role: owner, kind: drive#permission, selfLink: 'https://www.googleapis.com/drive/v2/files/1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno/permissions/me',
+        etag: '"gAMFKugTaK-pUvh6VufJ5EoShpg"', pendingOwner: false}
+      lastModifyingUserName: Andrew Sheves
+      etag: '"MTY5MDcxNjQyNjQyOQ"'
+      kind: drive#file
+      modifiedByMeDate: '2023-07-30T11:27:06.429Z'
+      title: NewslitFeed
+      version: '11'
+      appDataContents: false
+      writersCanShare: true
+      fileSize: '4295'
+      alternateLink: https://docs.google.com/spreadsheets/d/1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno/edit?usp=drivesdk
+      mimeType: application/vnd.google-apps.spreadsheet
+      modifiedDate: '2023-07-30T11:27:06.429Z'
+      quotaBytesUsed: '4295'
+      exportLinks: {x-vnd.oasis.opendocument.spreadsheet: 'https://docs.google.com/spreadsheets/export?id=1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno&exportFormat=ods',
+        tab-separated-values: 'https://docs.google.com/spreadsheets/export?id=1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno&exportFormat=tsv',
+        pdf: 'https://docs.google.com/spreadsheets/export?id=1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno&exportFormat=pdf',
+        vnd.openxmlformats-officedocument.spreadsheetml.sheet: 'https://docs.google.com/spreadsheets/export?id=1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno&exportFormat=xlsx',
+        csv: 'https://docs.google.com/spreadsheets/export?id=1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno&exportFormat=csv',
+        zip: 'https://docs.google.com/spreadsheets/export?id=1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno&exportFormat=zip',
+        vnd.oasis.opendocument.spreadsheet: 'https://docs.google.com/spreadsheets/export?id=1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno&exportFormat=ods'}
+      thumbnailLink: https://docs.google.com/feeds/vt?gd=true&id=1_Afe6FB-KDWg1xNLBswUipNBY2CSpscal0YgIk-ypno&v=4&s=AMedNnoAAAAAZMZmDFYguguKELBR4aPibpZecitiL5nm&sz=s220
+      ownerNames: [Andrew Sheves]
   server_config: {enc_delegation_refresh_token: X1G4sTJt73VDZ5Iqpnb+E2o7b9RxHwqPNp6ClPkLs9IJmFI3DIbIWrGR94n9QmDR0ilsVeSIJTln68FaejMBrbZbV85G9B9ys4eb1wPxJT5ERULpxNQUtZnxUOMVUMlRqr5wEcwmvKgo52sPPuaGWdXXVksBVxJfpVIWSl/metRcgJbarH9gSEveRur2tY5QSyM1YGmddnmU3VXVrlyqeuu10nNxq9udLJVlKipLqEF2WQsCV7lFBfAppO+voe6qbXEPpbKAkJciF1y31zOUO8IDc4pDUCAPimQzoOMfnW2oWucGll9rElBVGki8cA==}
 - source: /runtime/services/anvil/users.yml
   client_config: {allow_signup: true, enable_automatically: true, use_email: false,
