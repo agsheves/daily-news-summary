@@ -17,7 +17,7 @@ class Form1(Form1Template):
 
   def get_stories_click(self, **event_args):
     """This method is called when the button is clicked"""
-    articles = anvil.server.call('get_risk_articles')
+    articles = anvil.server.call('get_risknews_newLit')
     self.unformatted_stories.text = articles
     pass
 

@@ -11,6 +11,7 @@ import requests
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
+from plotly import graph_objects as go
 
 
 
@@ -58,6 +59,7 @@ def get_commodity_price_AlphaVantage(commodity_name, endpoint_url):
   # Get the high, low, and current prices
   high = commodity_df_18['value'].max()
   low = commodity_df_18['value'].min()
+  open_price = commodity_df_18.loc[commodity_df_18['date'].idxmin(), 'value']
   current = commodity_df_18.loc[commodity_df_18['date'].idxmax(), 'value']
 
   # Get the mean and standard deviation
@@ -87,8 +89,11 @@ def get_commodity_price_AlphaVantage(commodity_name, endpoint_url):
     current_commodity_trend = "relatively stable"
 
   # Return current commodity price and trend as a dictionary
-  return {"Commodity": commodity_name, "Current Price ($)": current, "Current Relative Price (18-month window)": current_relative_price, "Current Trend (3-Month Window)": current_commodity_trend}
-
+  return {"Commodity": commodity_name, 
+        "Current Price ($)": current, 
+        "Current Relative Price (18-month window)": current_relative_price, 
+        "Current Trend (3-Month Window)": current_commodity_trend, 
+        "Open Price ($)": open_price}
 
 ##Get all market data
 @anvil.server.callable
@@ -113,19 +118,21 @@ def write_market_metrics_summary():
 
   # Create the body of the email
   metrics_summary = f"""
-
+<h1>Key Metrics:</h1><p>
 <p>Here are the current values for the tracked metrics:</p>
 
-<h2><b>Wheat:</h2></b><br/><p>
+<h2>Wheat:</h2><p>
 - Current price: ${wheat_current_price}. This is {wheat_relative_price} for this 18-month period.<br/>
 - The 3-month trend is {wheat_current_trend}</p>
 <hr>
-<h2><b>Oil:</h2></b><br/><p>
+<h2>Oil:</h2><p>
 - Current price: ${oil_current_price}. This is {oil_relative_price} for this 18-month period.<br/>
 - The 3-month trend is {oil_current_trend}</p>
 <hr>
 """
   return metrics_summary
+
+
 
 
 ##############################################

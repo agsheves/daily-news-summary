@@ -180,33 +180,24 @@ def get_risknews_newLit():
         # Skip if the row doesn't have expected structure
         if set(row.keys()) != {'publication_date', 'title', 'author', 'image_url', 'language', 'source', 'excerpt', 'url'}:
             continue
+        if isinstance(row['publication_date'], datetime):
+            formatted_date = row['publication_date'].strftime('%d %B %Y')
+        else:
+            date_obj = datetime.strptime(row['publication_date'], '%Y-%m-%d %H:%M:%S')
+            formatted_date = date_obj.strftime('%d %B %Y')
 
         # Start story HTML
         story_html = f"""
-        <h1>{row['title']}</h1>
-        <h3>Published on: {row['publication_date']}</h3>
-        """
+        <h2>{row['title']}</h2>
+        <p><b>{row['author']}</b> <i>{row['source']}</i>, {formatted_date}</p>
+        <p>{row['excerpt']}</P>
+        <p><a href='{row['url']}'>{row['source']}</a></p>
+        <br><hr>
         
-        # If the author field is not empty
-        if row['author']:  
-            story_html += f"<h4>Author: {row['author']}</h4>"
-        
-        # If the image_url field is not empty
-        if row['image_url']:  
-            story_html += f"<img src='{row['image_url']}' alt='Story image' style='max-width:400px; height:auto;'>"
-        
-        # If the excerpt field is not empty
-        if row['excerpt']:
-            story_html += f"<p>{row['excerpt']}</p>"
-        
-        story_html += f"""
-        <p><a href='{row['url']}'>Read more</a></p>
-        <hr>
         """
         html_string += story_html
-
+      
     html_string += "</body></html>"
-
     return html_string
 
 

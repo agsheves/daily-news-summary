@@ -1,9 +1,9 @@
 scheduled_tasks:
 - task_name: send_full_daily_summary
   time_spec:
-    n: 6
-    every: hour
-    at: {minute: 0}
+    n: 1
+    every: day
+    at: {minute: 30, hour: 7}
   job_id: ISTWGWNW
 dependencies: []
 services:

@@ -9,6 +9,31 @@ from anvil.tables import app_tables
 import anvil.server
 from datetime import datetime, timedelta
 
+#Archives the news for that day to leave a clean sheet for the next day's news
+@anvil.server.callable
+def archive_news():
+    # Open your Google Sheet
+    db = app_files.newslitfeed
+
+    # Get the worksheets
+    feed_ws = db["NewsLitFeed"]
+    archive_ws = db["NewsLitArchive"]
+
+    # Ensure there are more than just header rows in the feed
+    if len(feed_ws.rows) > 1:
+        # Get a list of all rows except for the first one (headers)
+        rows_to_archive = feed_ws.rows[1:]
+
+        # Iterate over each row in the list
+        for row in rows_to_archive:
+            # Copy row to archive worksheet
+            archive_ws.add_row(**row)
+
+
+        # Now that the rows are archived, delete them from the feed worksheet
+        for row in rows_to_archive:
+            row.delete()
+
 
 
 @anvil.server.background_task
@@ -31,19 +56,19 @@ def send_full_daily_summary():
 
         # email header and footer
         header = f"""
-            <html>
-            <body>
-            <h2>Happy {day}! Here's your daily summary for {date}</h2>
+        <html>
+        <body>
+        <p>Happy {day}! Here's your risk news summary for {date}</p>
         """
 
         footer = """
-            <p>That's it for today. See you tomorrow</p>
-            <p><i>~Andrew</i></p>
-            </body>
-            </html>
+        <p>That's it for today. See you tomorrow</p>
+        <p><i>~Andrew</i></p>
+        </body>
+        </html>
         """
 
-        daily_subject = (f"Daily summary for {date}")
+        daily_subject = (f"Risk news summary for {date}. As always, the key metrics we're tracking are at the bottom of the message.")
 
         mail_message_body = header + news_summary + metrics_summary + footer  # this is an HTML message
 
@@ -55,5 +80,6 @@ def send_full_daily_summary():
                          from_name='Andrew')
 
         return "Email sent successfully."
+        anvil.server.call('archive_news')
     except Exception as e:
         return f"Failed to send email: {e}"
