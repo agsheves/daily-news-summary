@@ -169,30 +169,46 @@ def get_risk_articles_newscatcher():
 @anvil.server.callable
 def get_risknews_newLit():
     # Open your Google Sheet
-    sheet = app_files.NewslitFeed # Replace 'Sheet1' with your sheet name
+    db = app_files.newslitfeed
+    ws = db["NewsLitFeed"]
 
-    # Get all the rows from the sheet
-    rows = sheet.NewsLitFeed()
-
-    # Convert the rows to a list and then to a DataFrame
-    df = pd.DataFrame(list(rows))
-    
-    # Convert DataFrame to HTML formatted stories
+    # Initialize HTML string
     html_string = "<html><body>"
-    for _, row in df.iterrows():
+
+    # Iterate over each row in the Google Sheet
+    for row in ws.rows:
+        # Skip if the row doesn't have expected structure
+        if set(row.keys()) != {'publication_date', 'title', 'author', 'image_url', 'language', 'source', 'excerpt', 'url'}:
+            continue
+
+        # Start story HTML
         story_html = f"""
         <h1>{row['title']}</h1>
         <h3>Published on: {row['publication_date']}</h3>
-        <h4>Author: {row['author']}</h4>
-        <img src='{row['image_url']}' alt='Story image'>
-        <p>{row['excerpt']}</p>
+        """
+        
+        # If the author field is not empty
+        if row['author']:  
+            story_html += f"<h4>Author: {row['author']}</h4>"
+        
+        # If the image_url field is not empty
+        if row['image_url']:  
+            story_html += f"<img src='{row['image_url']}' alt='Story image' style='max-width:400px; height:auto;'>"
+        
+        # If the excerpt field is not empty
+        if row['excerpt']:
+            story_html += f"<p>{row['excerpt']}</p>"
+        
+        story_html += f"""
         <p><a href='{row['url']}'>Read more</a></p>
         <hr>
         """
         html_string += story_html
+
     html_string += "</body></html>"
 
     return html_string
+
 
 
 

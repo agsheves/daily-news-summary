@@ -17,15 +17,16 @@ def send_full_daily_summary():
         today = datetime.now()
         date = (today.strftime("%d-%B-%Y"))
         day = (today.strftime("%A"))
-        articles = anvil.server.call('get_risk_articles')
-        split_articles_list = anvil.server.call('split_articles', articles)
+        #articles = anvil.server.call('get_risk_articles_newscatcher')
+        #split_articles_list = anvil.server.call('split_articles', articles)
         # Generate summaries
-        summaries = []
-        for chunk in split_articles_list:
-            summary = anvil.server.call('summarize_stories', chunk)
-            summaries.append(summary)
+        #summaries = []
+        #for chunk in split_articles_list:
+            #summary = anvil.server.call('summarize_stories', chunk)
+            #summaries.append(summary)
         # Join all summaries into one string
-        news_summary = ''.join(summaries)
+        #news_summary = ''.join(summaries)
+        news_summary = anvil.server.call('get_risknews_newLit')
         metrics_summary = anvil.server.call('write_market_metrics_summary')
 
         # email header and footer

@@ -105,10 +105,12 @@ def write_market_metrics_summary():
   # Extract commodity metrics
   wheat_current_trend = market_metrics["wheat"]["Current Trend (3-Month Window)"]
   wheat_relative_price = market_metrics["wheat"]["Current Relative Price (18-month window)"]
-  wheat_current_price = market_metrics["wheat"]["Current Price ($)"]
+  wheat_current_price = "{:.2f}".format(float(market_metrics["wheat"]["Current Price ($)"]))
+  
   oil_current_trend = market_metrics["oil"]["Current Trend (3-Month Window)"]
   oil_relative_price = market_metrics["oil"]["Current Relative Price (18-month window)"]
-  oil_current_price = market_metrics["oil"]["Current Price ($)"]
+  oil_current_price = "{:.2f}".format(float(market_metrics["oil"]["Current Price ($)"]))
+
   # Create the body of the email
   metrics_summary = f"""
 
