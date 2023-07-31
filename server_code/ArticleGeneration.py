@@ -169,10 +169,10 @@ def get_risk_articles_newscatcher():
 @anvil.server.callable
 def get_risknews_newLit():
     # Open your Google Sheet
-    sheet = app_files.newslitfeed.get_sheet('NewsLitFeed')  # Replace 'Sheet1' with your sheet name
+    sheet = app_files.NewslitFeed # Replace 'Sheet1' with your sheet name
 
     # Get all the rows from the sheet
-    rows = sheet.get_rows()
+    rows = sheet.NewsLitFeed()
 
     # Convert the rows to a list and then to a DataFrame
     df = pd.DataFrame(list(rows))
