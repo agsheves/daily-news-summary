@@ -28,7 +28,7 @@ def archive_news():
         for row in rows_to_archive:
             # Copy row to archive worksheet
             archive_ws.add_row(**row)
-
+  
 
         # Now that the rows are archived, delete them from the feed worksheet
         for row in rows_to_archive:
@@ -58,7 +58,7 @@ def send_full_daily_summary():
         header = f"""
         <html>
         <body>
-        <p>Happy {day}! Here's your risk news summary for {date}</p>
+        <p>Happy {day}! Here's your risk news summary for {date}.  As always, the key metrics we're tracking are at the bottom of the message.</p>
         """
 
         footer = """
@@ -68,7 +68,7 @@ def send_full_daily_summary():
         </html>
         """
 
-        daily_subject = (f"Risk news summary for {date}. As always, the key metrics we're tracking are at the bottom of the message.")
+        daily_subject = (f"Risk news summary for {date}.")
 
         mail_message_body = header + news_summary + metrics_summary + footer  # this is an HTML message
 

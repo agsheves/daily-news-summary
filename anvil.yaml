@@ -3,7 +3,7 @@ scheduled_tasks:
   time_spec:
     n: 1
     every: day
-    at: {minute: 30, hour: 7}
+    at: {minute: 30, hour: 12}
   job_id: ISTWGWNW
 dependencies: []
 services:
