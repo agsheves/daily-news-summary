@@ -79,7 +79,7 @@ def send_full_daily_summary():
                          from_address='andrew@tarjumansolutions.com',
                          from_name='Andrew')
 
-        return "Email sent successfully."
         anvil.server.call('archive_news')
+        return "Email sent successfully & stories archived"
     except Exception as e:
         return f"Failed to send email: {e}"

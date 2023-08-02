@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 import anvil.secrets
 import openai
 import pandas as pd
+from pandas import to_datetime
 
 ##############################################
 #Calls the WorldNews API and requests stories
@@ -177,15 +178,20 @@ def get_risknews_newLit():
 
     # Iterate over each row in the Google Sheet
     for row in ws.rows:
-        # Skip if the row doesn't have expected structure
-        if set(row.keys()) != {'publication_date', 'title', 'author', 'image_url', 'language', 'source', 'excerpt', 'url'}:
-            continue
-        if isinstance(row['publication_date'], datetime):
-            formatted_date = row['publication_date'].strftime('%d %B %Y')
-        else:
-            date_obj = datetime.strptime(row['publication_date'], '%Y-%m-%d %H:%M:%S')
-            formatted_date = date_obj.strftime('%d %B %Y')
-
+    # Skip if the row doesn't have expected structure
+      if set(row.keys()) != {'publication_date', 'title', 'author', 'image_url', 'language', 'source', 'excerpt', 'url'}:
+        continue
+      publication_date = row['publication_date']
+      if isinstance(publication_date, datetime):
+        formatted_date = publication_date.strftime('%d %B %Y')
+      elif isinstance(publication_date, (float, str)) and publication_date.replace('.', '', 1).isdigit():
+        excel_date_value = float(publication_date)
+        date_obj = to_datetime(excel_date_value, unit='D', origin='1899-12-30')
+        formatted_date = date_obj.strftime('%d %B %Y')
+      else:
+        date_obj = datetime.strptime(publication_date, '%Y-%m-%d %H:%M:%S')
+        formatted_date = date_obj.strftime('%d %B %Y')
+      
         # Start story HTML
         story_html = f"""
         <h2>{row['title']}</h2>
