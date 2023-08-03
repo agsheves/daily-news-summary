@@ -3,8 +3,8 @@ scheduled_tasks:
   time_spec:
     n: 1
     every: day
-    at: {minute: 30, hour: 10}
-  job_id: ISTWGWNW
+    at: {minute: 30, hour: 12}
+  job_id: UQRKLNWF
 dependencies: []
 services:
 - source: /runtime/services/tables.yml
