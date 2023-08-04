@@ -206,8 +206,25 @@ def get_risknews_newLit():
     html_string += "</body></html>"
     return html_string
 
+###############################
+# Get news from the Brave API
+@anvil.server.callable
+def get_risk_articles_BraveAPI():
+  brave_API = anvil.secrets.get_secret('brave_API')  # Fetch API key from Anvil's Secret Service
+  
+  # Set your query parameters
+  querystring = {"q":"risk management",
+                 "search_lang":"en",
+                 "freshness": "pd",
+                 #"result_filter": "news",
+                 "count":20}
 
+  headers = {"X-Subscription-Token": brave_API}
+  response = requests.request("GET", 'https://api.search.brave.com/res/v1/web/search', headers=headers, params=querystring)
 
+  
+  risk_news = response.json()
+  return risk_news
 
 
 ##############################################

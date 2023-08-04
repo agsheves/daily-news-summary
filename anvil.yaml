@@ -165,4 +165,7 @@ secrets:
   newsLit_API:
     value: {TGXU35C6JLUECIVC: kgbqAgfThrrsk9iL57X7AU3JTeZ+0zocgH0zL7HBx7yL3Ih48KkNQ+XgqqkPhzv5CfH0bIpcPeREwhzKgm/D3UJ02JreeAsKiWyvH59OjbeNWB5rmWPmPZivglYaqiR5lW3IBcCGXMyVpjDpNcx4iFqipT9mzBPRJV4j5HhQYg==}
     type: secret
+  brave_API:
+    value: {TGXU35C6JLUECIVC: 5ytx7yMpvx+9QKv4TXgM0adOuHoWV8Ug/KqJiK0HGxRwcd74w1OD+/nN9NZi1ShzrJ4MrBmiZ4h4M4tWEvbWz/OK31Ve49Zap6d4mC7of4yNCX7VYI4LIlFac9xGeQdwLIktONPhwubBdx6uay3s9YmdSNUVA++6659NmEww}
+    type: secret
 renamed: true
