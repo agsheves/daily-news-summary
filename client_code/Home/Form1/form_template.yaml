@@ -8,34 +8,34 @@ components:
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
   name: get_stories
-  layout_properties: {grid_position: 'TUQKBQ,XPIWZV'}
+  layout_properties: {grid_position: 'TUQKBQ,XPIWZV', full_width_row: false}
   event_bindings: {click: get_stories_click}
 - type: TextArea
   properties: {}
   name: unformatted_stories
-  layout_properties: {grid_position: 'RECBZP,LRFHNI'}
+  layout_properties: {grid_position: 'RECBZP,LRFHNI', full_width_row: false}
 - type: Button
   properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
     foreground: '', visible: true, text: Summarize Stories, font_size: null, font: '',
     spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
     bold: false, underline: false, icon: ''}
   name: summrize_stories
-  layout_properties: {grid_position: 'BLKWYG,COJYKW'}
+  layout_properties: {grid_position: 'BLKWYG,COJYKW', full_width_row: false}
   event_bindings: {click: summrize_stories_click}
 - type: TextArea
   properties: {}
   name: html_summaries
-  layout_properties: {grid_position: 'YMSPSM,WHFTRF'}
+  layout_properties: {grid_position: 'YMSPSM,WHFTRF', full_width_row: false}
 - type: Button
   properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
     foreground: '', visible: true, text: Email Stories, font_size: null, font: '',
     spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
     bold: false, underline: false, icon: ''}
   name: send_email
-  layout_properties: {grid_position: 'EFRFTU,ERFNAC'}
+  layout_properties: {grid_position: 'EFRFTU,ERFNAC', full_width_row: false}
   event_bindings: {click: send_email_click}
 - type: TextBox
   properties: {}
   name: email_result
-  layout_properties: {grid_position: 'YKKDDW,QEBGDY'}
+  layout_properties: {grid_position: 'YKKDDW,QEBGDY', full_width_row: false}
 is_package: true
