@@ -1042,3 +1042,12 @@ div.plot-container.plotly svg.main-svg {
   box-shadow: 0px 0px 100px 100px %color:Surface Variant%;
 }
 
+.floating-panel {
+  position: fixed; /* Fixed positioning makes it stay in the same place */
+  bottom: 40px;    /* Position from the bottom */
+  right: 40px;     /* Position from the right */
+  width: 200px;    /* You can set the width as needed */
+  height: 100px;   /* You can set the height as needed */
+  z-index: 1000;   /* Ensures that the panel appears on top of other elements */
+}
+
