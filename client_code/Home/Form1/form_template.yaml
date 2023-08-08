@@ -10,6 +10,10 @@ components:
   name: get_stories
   layout_properties: {grid_position: 'TUQKBQ,XPIWZV', full_width_row: false}
   event_bindings: {click: get_stories_click}
+- type: form:botpress
+  properties: {}
+  name: botpress_2
+  layout_properties: {grid_position: 'TUQKBQ,XSCDFM', full_width_row: false}
 - type: TextArea
   properties: {}
   name: unformatted_stories

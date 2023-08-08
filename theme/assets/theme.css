@@ -1043,7 +1043,7 @@ div.plot-container.plotly svg.main-svg {
 }
 
 
-.anvil-role-floating {
+.anvil-role-floating-button2 {
   position: fixed; /* Fixed positioning makes it stay in the same place */
   bottom: 40px;    /* Position from the bottom */
   right: 40px;     /* Position from the right */
