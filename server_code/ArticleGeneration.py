@@ -13,6 +13,13 @@ import anvil.secrets
 import openai
 import pandas as pd
 from pandas import to_datetime
+import re
+
+def remove_excessive_br_tags(html_content):
+    # Replace occurrences of multiple <br> (case-insensitive) with a single <br>
+    cleaned_html = re.sub(r'\s*<br>\s*<hr>\s*', '<br><hr>', html_content)
+    return cleaned_html
+
 
 ##############################################
 #Calls the WorldNews API and requests stories
@@ -205,6 +212,54 @@ def get_risknews_newLit():
       
     html_string += "</body></html>"
     return html_string
+
+
+@anvil.server.callable
+def get_WEEKLY_risknews_newLit():
+    # Open your Google Sheet
+    db = app_files.newslitfeed
+    ws = db["NewsLitArchiveCopy"]
+    within_oneWeek = datetime.now() - timedelta(days=7)
+
+    def string_to_datetime(date_string):
+      return datetime.strptime(date_string, '%d %B %Y')
+
+    # Initialize HTML string
+    html_string = "<html><body>"
+
+    # Iterate over each row in the Google Sheet
+    for row in ws.rows:
+    # Skip if the row doesn't have expected structure
+      if set(row.keys()) != {'publication_date', 'title', 'author', 'image_url', 'language', 'source', 'excerpt', 'url'}:
+        continue
+      publication_date = row['publication_date']
+      if isinstance(publication_date, datetime):
+        formatted_date = publication_date.strftime('%d %B %Y')
+      elif isinstance(publication_date, (float, str)) and publication_date.replace('.', '', 1).isdigit():
+        excel_date_value = float(publication_date)
+        date_obj = to_datetime(excel_date_value, unit='D', origin='1899-12-30')
+        formatted_date = date_obj.strftime('%d %B %Y')
+      else:
+        date_obj = datetime.strptime(publication_date, '%Y-%m-%d %H:%M:%S')
+        formatted_date = date_obj.strftime('%d %B %Y')
+      
+        # Start story HTML
+        date_obj_for_comparison = string_to_datetime(formatted_date)
+        if date_obj_for_comparison >= within_oneWeek:
+          story_html = f"""
+          <h2>{row['title']}</h2>
+          <p><b>{row['author']}</b> <i>{row['source']}</i>, {formatted_date}</p>
+          <p>{row['excerpt']}</P>
+          <p><a href='{row['url']}'>{row['source']}</a></p>
+          <br><hr>
+        
+          """
+          html_string += story_html
+      
+    html_string += "</body></html>"
+    html_string = remove_excessive_br_tags(html_string)
+    return html_string
+
 
 ###############################
 # Get news from the Brave API

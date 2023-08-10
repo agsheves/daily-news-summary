@@ -145,6 +145,12 @@ db_schema:
     - name: signed_up
       type: datetime
       admin_ui: {order: 6, width: 200}
+    - name: firstName
+      admin_ui: {width: 200}
+      type: string
+    - name: permission_to_email
+      admin_ui: {width: 200}
+      type: bool
     title: Users
 secrets:
   openai_api:

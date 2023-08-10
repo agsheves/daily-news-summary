@@ -11,11 +11,10 @@ import anvil.http
 from datetime import datetime
 
 @anvil.server.callable
-def send_risk_news_to_zapier():
+def send_weekly_newsSummary_to_zapier():
     try:
         # Your HTML content
-        news_summary = anvil.server.call('get_risknews_newLit')
-        metrics_summary = anvil.server.call('write_market_metrics_summary')
+        news_summary = anvil.server.call('get_WEEKLY_risknews_newLit')
         today = datetime.today()
         date_str = (today.strftime("%d %B %Y"))
         day_str = (today.strftime("%A"))
@@ -25,7 +24,6 @@ def send_risk_news_to_zapier():
         <html>
         <body>
         {news_summary}
-        {metrics_summary}
         </body>
         </html>
         """
