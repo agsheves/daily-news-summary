@@ -1,0 +1,29 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: DataRowPanel
+  properties: {}
+  name: data_row_panel_1
+  layout_properties: {grid_position: 'YRUJPE,GUUVJD'}
+  components:
+  - type: Label
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: headline
+    layout_properties: {column: null}
+  - type: Label
+    properties: {}
+    name: authorAndPublication
+    layout_properties: {column: null}
+  - type: Label
+    properties: {}
+    name: summary
+    layout_properties: {column: null}
+  - type: Link
+    properties: {}
+    name: storyLink
+    layout_properties: {column: null}
+is_package: true

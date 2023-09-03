@@ -103,7 +103,7 @@ def get_risk_articles_newsdata():
             print(f"Request failed with status code {response.status_code}")
             return None
 
-    api_key = anvil.secrets.get_secret('newsData_key')  # Fetch API key from Anvil's Secret Service
+    api_key = anvil.secrets.get_secret('newsData_key')
 
     # Call the API with the keywords
     risk_news = search_news(api_key, "risk management OR crisis management OR crisis OR cyber OR compliance OR governance", number=50)
@@ -111,22 +111,50 @@ def get_risk_articles_newsdata():
     if not risk_news or 'results' not in risk_news:
         return []
 
+    # Retrieve the topic from the 'topics' table
+    topic_row = app_tables.topics.get(topics='Risk and crisis')
+    if not topic_row:
+        # If topic not found in the table, you might want to handle this case.
+        # For now, I'll set the topic value to 'Risk and crisis' directly.
+        topic_value = 'Risk and crisis'
+    else:
+        topic_value = topic_row
+
     risk_articles_list = []
     for news in risk_news['results']:
         title = news['title']
+        content = news['content']
         summary = news['description'] 
         link = news['link']
-        source = news.get('creator', 'Unknown')  # Use 'creator' as the source; if not present, use 'Unknown'
+        source = news['creator']
+        publication = news['source_id'] 
+        pubDate = news['pubDate']
 
         risk_articles_list.append({
             'Headline': title,
             'Source': source,
             'Summary': summary,
             'Link': link,
+            'pubDate': pubDate,
+            'publication': publication,
+            'content': content
         })
 
-    return risk_articles_list
+        # Add the data to the 'newssummaries' table
+        pubDate_datetime = datetime.strptime(pubDate, "%Y-%m-%d %H:%M:%S").date()
+        app_tables.newssummaries.add_row(
+            dateTimeAdded=datetime.now(),
+            pubDate=pubDate_datetime, 
+            headline=title,
+            content=content,
+            summary=summary,
+            topic=topic_value,  # Set the topic value retrieved from the 'topics' table
+            publication=publication,
+            author=str(source),
+            storyLink=link
+        )
 
+    return risk_articles_list
 ##Calls the NewsCatcher API
 
 @anvil.server.callable

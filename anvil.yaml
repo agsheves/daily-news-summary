@@ -94,24 +94,6 @@ runtime_options:
 metadata: {title: NewsBot, logo_img: 'asset:Scenarios.png', description: An AI-driven newsletter generator}
 startup_form: null
 db_schema:
-  latest_news:
-    client: search
-    server: full
-    columns:
-    - name: date
-      admin_ui: {width: 200}
-      type: date
-    - name: id
-      admin_ui: {width: 200}
-      type: number
-    - name: stories
-      admin_ui: {width: 200}
-      type: string
-    - name: topic
-      admin_ui: {width: 200}
-      type: link_single
-      target: topics
-    title: latest_news
   topics:
     title: topics
     client: none
@@ -152,6 +134,39 @@ db_schema:
       admin_ui: {width: 200}
       type: bool
     title: Users
+  newssummaries:
+    client: search
+    server: full
+    columns:
+    - name: summary
+      admin_ui: {order: 1, width: 200}
+      type: string
+    - name: topic
+      admin_ui: {width: 200}
+      type: link_single
+      target: topics
+    - name: dateTimeAdded
+      admin_ui: {order: 0, width: 200}
+      type: datetime
+    - name: author
+      admin_ui: {order: 4, width: 200}
+      type: string
+    - name: storyLink
+      type: string
+      admin_ui: {width: 200, order: 5}
+    - name: headline
+      admin_ui: {order: 0.5, width: 200}
+      type: string
+    - name: publication
+      type: string
+      admin_ui: {width: 200, order: 3.5}
+    - name: pubDate
+      type: date
+      admin_ui: {width: 200, order: 0.25}
+    - name: content
+      type: string
+      admin_ui: {width: 200, order: 2}
+    title: newsSummaries
 secrets:
   openai_api:
     value: {TGXU35C6JLUECIVC: +F5DLTG3h/jc1bNApkWTJUkVEBDqS9PHpUZ+emGbrmmQG5P0z335S3OL6YsmZ43iKxx/K/kyBPEX1d33M+UIaPeqKIj/xZCVL+dKK33ruCajE8m0C2w2SkE/zVlFAxjN97hOE2s4ZfFIevEgg86exoeyyecp2EtMtzGD2CWofJRcrxQKIHrf75BrHDUp1zI7xK8=}
