@@ -21,6 +21,43 @@ def remove_excessive_br_tags(html_content):
     return cleaned_html
 
 
+################################################
+# Adds the story to the newsSumaries data table
+@anvil.server.callable
+def add_to_newsSummaries(pubDate, title, content, summary, topic_value, publication, source, link):
+    # Check if story with same headline and author already exists
+    existing_story = app_tables.newssummaries.get(headline=title, author=str(source))
+    
+    if existing_story:
+        # Compare publication dates and update if the new story is more recent
+        existing_pubDate = datetime.strptime(existing_story['pubDate'], "%Y-%m-%d").date()
+        new_pubDate = datetime.strptime(pubDate, "%Y-%m-%d %H:%M:%S").date()
+        if new_pubDate > existing_pubDate:
+            existing_story.delete()
+        else:
+            return {"status": "skipped", "message": "Existing story is more recent or same date."}
+
+    # Add the new story
+    pubDate_datetime = datetime.strptime(pubDate, "%Y-%m-%d %H:%M:%S").date()
+    app_tables.newssummaries.add_row(
+        dateTimeAdded=datetime.now(),
+        pubDate=pubDate_datetime, 
+        headline=title,
+        content=content,
+        summary=summary,
+        topic=topic_value,
+        publication=publication,
+        author=str(source),
+        storyLink=link
+    )
+
+    return {"status": "added", "message": "Story successfully added to the database."}
+
+
+
+
+
+
 ##############################################
 #Calls the WorldNews API and requests stories
 #API reference is here https://worldnewsapi.com/
@@ -79,46 +116,41 @@ def get_risk_articles():
     return risk_articles_list
 
 
-#######
+###############################################
 #Calls the Newsdata.io API and requests stories
 #API reference is here https://newsdata.io/
 
-@anvil.server.callable
+@anvil.server.background_task
 def get_risk_articles_newsdata():
-    def search_news(api_key, text, number=10, language='en'):
+    def search_news(api_key, text, number=10, language='en', prioritydomain='top'): 
         url = "https://newsdata.io/api/1/news"
         categories = "business"
         query = {
             'apikey': api_key,
             'qInTitle': text,
             'category': categories,
+            'prioritydomain': prioritydomain,
             'language': language
         }
         response = requests.get(url, params=query)
 
-        # Check if request was successful
-        if response.status_code == 200:
-            return response.json()
-        else:
-            print(f"Request failed with status code {response.status_code}")
-            return None
+        if response.status_code != 200:
+            return {"error": f"Request failed with status code {response.status_code}"}
+
+        return response.json()
 
     api_key = anvil.secrets.get_secret('newsData_key')
-
-    # Call the API with the keywords
     risk_news = search_news(api_key, "risk management OR crisis management OR crisis OR cyber OR compliance OR governance", number=50)
 
-    if not risk_news or 'results' not in risk_news:
+    if "error" in risk_news:
+        return risk_news
+
+    if 'results' not in risk_news:
         return []
 
-    # Retrieve the topic from the 'topics' table
+    # Retrieve the topic from the 'topics' table once before the loop
     topic_row = app_tables.topics.get(topics='Risk and crisis')
-    if not topic_row:
-        # If topic not found in the table, you might want to handle this case.
-        # For now, I'll set the topic value to 'Risk and crisis' directly.
-        topic_value = 'Risk and crisis'
-    else:
-        topic_value = topic_row
+    topic_value = topic_row if topic_row else 'Risk and crisis'
 
     risk_articles_list = []
     for news in risk_news['results']:
@@ -126,7 +158,8 @@ def get_risk_articles_newsdata():
         content = news['content']
         summary = news['description'] 
         link = news['link']
-        source = news['creator']
+        # Extract first creator or default to 'Unknown'
+        source = news['creator'][0] if news['creator'] else 'Unknown'
         publication = news['source_id'] 
         pubDate = news['pubDate']
 
@@ -136,25 +169,15 @@ def get_risk_articles_newsdata():
             'Summary': summary,
             'Link': link,
             'pubDate': pubDate,
-            'publication': publication,
-            'content': content
+            'publication': publication
+            #'content': content
         })
 
-        # Add the data to the 'newssummaries' table
-        pubDate_datetime = datetime.strptime(pubDate, "%Y-%m-%d %H:%M:%S").date()
-        app_tables.newssummaries.add_row(
-            dateTimeAdded=datetime.now(),
-            pubDate=pubDate_datetime, 
-            headline=title,
-            content=content,
-            summary=summary,
-            topic=topic_value,  # Set the topic value retrieved from the 'topics' table
-            publication=publication,
-            author=str(source),
-            storyLink=link
-        )
+        anvil.server.call('add_to_newsSummaries', pubDate, title, content, summary, topic_value, publication, source, link)
 
     return risk_articles_list
+
+###########################
 ##Calls the NewsCatcher API
 
 @anvil.server.callable
@@ -241,7 +264,7 @@ def get_risknews_newLit():
     html_string += "</body></html>"
     return html_string
 
-
+##################################
 @anvil.server.callable
 def get_WEEKLY_risknews_newLit():
     # Open your Google Sheet
