@@ -7,10 +7,16 @@ from anvil.google.drive import app_files
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+import datetime, timedelta
 
 class ArticleDetails(ArticleDetailsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+
+    today = datetime.now().date()
+    stories = app_tables.newsSummaries.search(pubDate <= one_day_ago)
+    self.repeating_panel_1.items = stories
+
 
     # Any code you write here will run before the form opens.
