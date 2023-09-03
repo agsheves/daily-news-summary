@@ -30,7 +30,7 @@ def send_weekly_newsSummary_to_zapier():
 
         # Send the content to the Zapier webhook
         response = anvil.http.request(
-            url='https://hooks.zapier.com/hooks/catch/1839647/31la39u/',
+            url=anvil.secrets.get_secret('zapierWebhook'),
             method='POST',
             data={
               'content': content,

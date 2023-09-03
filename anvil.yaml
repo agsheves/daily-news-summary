@@ -189,4 +189,7 @@ secrets:
   brave_API:
     value: {TGXU35C6JLUECIVC: 5ytx7yMpvx+9QKv4TXgM0adOuHoWV8Ug/KqJiK0HGxRwcd74w1OD+/nN9NZi1ShzrJ4MrBmiZ4h4M4tWEvbWz/OK31Ve49Zap6d4mC7of4yNCX7VYI4LIlFac9xGeQdwLIktONPhwubBdx6uay3s9YmdSNUVA++6659NmEww}
     type: secret
+  zapierWebhook:
+    value: {TGXU35C6JLUECIVC: tYVYE4d1UCUjkIOk9/9aDzG+sCx+LF4DS+MgF92le9lJmGPyqDxYkDBSad/UjxLVv8Zl/XiKhMI5eEOpRhVbOox5oEAHwa/lFZkpPqlnZBhqAUNRfVbAnZl0K19DdIolxTTnTzu59dnShqywBg+7XT9F4DR+eiI6t6xDj1+7W7LnOxe8ECjAFW+2yib6I4n7h6AclC394cRz1ZA=}
+    type: secret
 renamed: true
