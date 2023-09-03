@@ -1,4 +1,4 @@
-<i>This app is built in Anvil and you can [read more about that here](https://github.com/agsheves/daily-news-summary/blob/7c86dd87065583d8e745a694384cf023bd651075/anvilinfo.md)</i>
+<i>This app is built in Anvil and you can [read more about that here](https://github.com/agsheves/daily-news-summary/blob/a437b772428e4b7efbdf6eef95239643171f7bf7/anvilInfo.md)</i>
 
 <h2>Purpose</h2>
 
