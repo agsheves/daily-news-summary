@@ -18,7 +18,7 @@ The biggest challenge has been the consistency of the data from the news APIs an
 
 <H2>Next steps</H2>
 
-- [] Settle on a 'good enough' API and clean up the code to use this.
+- [ ] Settle on a 'good enough' API and clean up the code to use this.
 - [] Finish the web app to display the stories
 - [] Publish the webapp HTML and embed on a webpage as a test
 - [] Link to the raw stories to another service to integrate with a newsletter. This could be auto-posting to WordPress to send news out via the ConvertKit RSS feed.
