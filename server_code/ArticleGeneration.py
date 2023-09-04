@@ -30,7 +30,7 @@ def add_to_newsSummaries(pubDate, title, content, summary, topic_value, publicat
     
     if existing_story:
         # Compare publication dates and update if the new story is more recent
-        existing_pubDate = datetime.strptime(existing_story['pubDate'], "%Y-%m-%d").date()
+        existing_pubDate = existing_story['pubDate']
         new_pubDate = datetime.strptime(pubDate, "%Y-%m-%d %H:%M:%S").date()
         if new_pubDate > existing_pubDate:
             existing_story.delete()

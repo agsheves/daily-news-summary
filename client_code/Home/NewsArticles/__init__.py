@@ -11,11 +11,12 @@ from datetime import datetime, timedelta
 
 
 class NewsArticles(NewsArticlesTemplate):
-  def __init__(self, **properties):
-    # Set Form properties and Data Bindings.
-    self.init_components(**properties)
-    stories = app_tables.newssummaries.search()
-    self.repeating_panel_1.items = stories
-    print("NewsArticles form initialized")
+    def __init__(self, **properties):
+        # Set Form properties and Data Bindings.
+        stories = app_tables.newssummaries.search(
+            tables.order_by("pubDate", ascending=False)
+        )
+        self.init_components(**properties)
+        self.repeating_panel_1.items = stories
+        print("NewsArticles form initialized")
 
-    # Any code you write here will run before the form opens.
