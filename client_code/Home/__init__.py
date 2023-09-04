@@ -20,10 +20,11 @@ class Home(HomeTemplate):
 
   def show_news_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    print("Button clicked")
     alert(
       title='Latest news',
-      large=True,
-      contents = NewsArticles()
+      contents="Hello, world!"
+      #contents = NewsArticles()
     )
     pass
 

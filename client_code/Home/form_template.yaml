@@ -8,8 +8,8 @@ components:
   name: navbar_links
   layout_properties: {slot: nav-right}
 - type: Button
-  properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
-    foreground: '', visible: true, text: Show news, font_size: null, font: '', spacing_above: small,
+  properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
+    foreground: '', visible: true, text: Show News, font_size: null, font: '', spacing_above: small,
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
   name: show_news_button

@@ -16,5 +16,6 @@ class NewsArticles(NewsArticlesTemplate):
     self.init_components(**properties)
     stories = app_tables.newssummaries.search()
     self.repeating_panel_1.items = stories
+    print("NewsArticles form initialized")
 
     # Any code you write here will run before the form opens.
