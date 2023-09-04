@@ -3,15 +3,55 @@ container:
   type: HtmlTemplate
   properties: {html: '@theme:standard-page.html'}
 components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: content_panel
+  layout_properties: {slot: default}
+  components:
+  - type: Label
+    properties: {role: body, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'The NewsBot gathers risk, crisis, and disaster news using
+        an API. This news feed is the base for multiple future applications.
+
+
+        * A daily newsletter with risk, crisis, and disaster news
+
+        * Subject alerts, e.g. news for a specific country
+
+        * Triggers and current news updates for country risk ratings
+
+
+        The feed below is live test of the API and the filtering. This should update
+        daily and show 48 hours'' worth of news.
+
+
+        Next steps are to:
+
+
+        [  ] Improve filtering
+
+        [  ] Add story summarization using LLMs', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_2
+    layout_properties: {grid_position: 'APAJXB,VGIPZJ'}
+  - type: ColumnPanel
+    properties: {col_widths: '{}'}
+    name: column_panel_1
+    layout_properties: {grid_position: 'IOVJWK,JAISLI'}
+    components:
+    - type: form:Home.NewsArticles
+      properties: {}
+      name: news_articles_1
+      layout_properties: {grid_position: 'DMBJHH,ZFPANU'}
 - type: FlowPanel
   properties: {}
   name: navbar_links
   layout_properties: {slot: nav-right}
-- type: Button
-  properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
-    foreground: '', visible: true, text: Show News, font_size: null, font: '', spacing_above: small,
+- type: Label
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
+    text: "NewsBot 1.0 \ud83d\uddde\ufe0f", font_size: null, font: '', spacing_above: small,
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
-  name: show_news_button
-  layout_properties: {slot: default}
-  event_bindings: {click: show_news_button_click}
+  name: label_1
+  layout_properties: {slot: title}
