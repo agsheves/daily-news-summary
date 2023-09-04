@@ -4,8 +4,8 @@ container:
 components:
 - type: RepeatingPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', items: null, visible: true,
-    spacing_above: small, spacing_below: small, item_template: Home.Article_feed.ArticleDetails,
+    spacing_above: small, spacing_below: small, item_template: Home.NewsArticles.ItemTemplate2,
     background: ''}
   name: repeating_panel_1
-  layout_properties: {grid_position: 'QWLDPS,YEJZTM'}
+  layout_properties: {grid_position: 'SLAPDK,KOXOPO'}
 is_package: true

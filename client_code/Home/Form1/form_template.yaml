@@ -49,10 +49,10 @@ components:
   name: column_panel_1
   layout_properties: {grid_position: 'GIPVEK,WBQNSZ', full_width_row: false}
   components:
-  - type: form:botpress
+  - type: form:Home.Article_feed
     properties: {}
-    name: botpress_1
-    layout_properties: {grid_position: 'KLEHXG,KGZOLL'}
+    name: article_feed_1
+    layout_properties: {grid_position: 'VUVMHO,ZWPNXX'}
 - type: Spacer
   properties: {height: 36}
   name: spacer_1

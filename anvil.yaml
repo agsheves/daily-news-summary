@@ -82,7 +82,7 @@ services:
   client_config: {allow_signup: true, enable_automatically: true, use_email: false,
     confirm_email: true}
   server_config: {user_table: users}
-startup: {type: form, module: Home.Form1}
+startup: {type: form, module: Home}
 package_name: Daily_News_Summary
 allow_embedding: false
 name: Daily News Summary
