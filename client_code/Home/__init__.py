@@ -22,9 +22,9 @@ class Home(HomeTemplate):
     """This method is called when the button is clicked"""
     print("Button clicked")
     alert(
-      title='Latest news',
-      contents="Hello, world!"
-      #contents = NewsArticles()
+      content = NewsArticles(),
+      title = 'Latest news',
+      large = True
     )
     pass
 
