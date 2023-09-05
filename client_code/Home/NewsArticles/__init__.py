@@ -14,7 +14,7 @@ class NewsArticles(NewsArticlesTemplate):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
         stories = app_tables.newssummaries.search(
-            tables.order_by("pubDate", ascending=False)
+            tables.order_by("dateTimeAdded", ascending=False)
         )
         self.init_components(**properties)
         self.repeating_panel_1.items = stories
