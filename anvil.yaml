@@ -1,10 +1,4 @@
-scheduled_tasks:
-- task_name: get_risk_articles_newsdata
-  time_spec:
-    n: 8
-    every: hour
-    at: {minute: 10}
-  job_id: HUSWOWUO
+scheduled_tasks: []
 dependencies: []
 services:
 - source: /runtime/services/tables.yml
